@@ -40,6 +40,21 @@ export async function fetchAPI({
   return json.data
 }
 
+export async function fetchSiteData() {
+  const query = `
+    query {
+      generalSettings {
+        title
+        description
+      }
+    }
+  `
+  let menuId
+
+  const data = await await fetchAPI({ query })
+  return data
+}
+
 export async function fetchEditionsList() {
   const query = `
     {
@@ -68,6 +83,5 @@ export async function fetchEdition({ page }: { page?: string }) {
   }
 
   const data = await await fetchAPI({ query, variables })
-  console.log(data)
   return data ? data.edition : null
 }

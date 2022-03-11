@@ -1,9 +1,5 @@
 import type { GetStaticPaths, GetStaticProps } from "next"
-import { fetchEdition } from "../../utils/api"
-
-type Props = {
-  data: any
-}
+import { fetchEdition, fetchSiteData } from "../../utils/api"
 
 export const getStaticPaths: GetStaticPaths = async ({ defaultLocale }) => {
   const paths = [
@@ -35,16 +31,27 @@ export const getStaticPaths: GetStaticPaths = async ({ defaultLocale }) => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { page } = params as any
   const data = await fetchEdition({ page })
+  const siteData = await fetchSiteData()
 
   return {
     props: {
       data,
+      siteData,
     },
   }
 }
 
-const Page = ({ data }: Props) => {
-  return <h1>{data?.title}</h1>
+const Page = ({ data, siteData }: any) => {
+  if (!data || !siteData) {
+    return null
+  }
+
+  return (
+    <>
+      <h1>{siteData?.generalSettings.title}</h1>
+      <h3>{data?.title}</h3>
+    </>
+  )
 }
 
 export default Page
