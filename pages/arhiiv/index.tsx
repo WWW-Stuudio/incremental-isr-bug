@@ -1,7 +1,7 @@
 import type { GetStaticProps, NextPage } from "next"
 import Link from "next/link"
 import styles from "../../styles/Home.module.css"
-import { fetchEditionsList } from "../../utils/api"
+import { fetchEditionsList, fetchSiteData } from "../../utils/api"
 
 const Home: NextPage = ({ editions, siteData }: any) => {
   return (
