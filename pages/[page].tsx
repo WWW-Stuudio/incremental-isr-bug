@@ -1,45 +1,50 @@
 import type { GetStaticPaths, GetStaticProps } from "next"
+import { fetchEdition } from "../utils/api"
 
 type Props = {
-  time: string;
+  data: any
 }
 
 export const getStaticPaths: GetStaticPaths = async ({ defaultLocale }) => {
-  const paths = [{
-    params: {
-      page: "page-1"
+  const paths = [
+    {
+      params: {
+        page: "page-1",
+      },
     },
-  }, {
-    params: {
-      page: "page-2"
+    {
+      params: {
+        page: "page-2",
+      },
     },
-  }, {
-    params: {
-      page: "page-3"
+    {
+      params: {
+        page: "page-3",
+      },
     },
-  }, {
-    params: {
-      page: "page-4"
-    }
-  }
+    {
+      params: {
+        page: "page-4",
+      },
+    },
   ]
 
   return { paths, fallback: true }
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-  const res = await fetch("http://worldtimeapi.org/api/timezone/Europe/Tallinn")
-  const json = await res.json()
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const { page } = params as any
+  const data = await fetchEdition({ page })
 
   return {
     props: {
-      time: json.datetime
+      data,
     },
   }
 }
 
-const Page = ({time}: Props) => {
-  return (<h1>{time}</h1>)
+const Page = ({ data }: Props) => {
+  return <h1>{data?.title}</h1>
 }
 
 export default Page

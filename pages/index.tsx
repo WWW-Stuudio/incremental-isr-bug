@@ -1,25 +1,32 @@
-import type { NextPage } from 'next'
-import Link from 'next/link'
-import styles from '../styles/Home.module.css'
+import type { GetStaticProps, NextPage } from "next"
+import Link from "next/link"
+import styles from "../styles/Home.module.css"
+import { fetchEditionsList } from "../utils/api"
 
-const Home: NextPage = () => {
+const Home: NextPage = ({ editions }: any) => {
   return (
     <div className={styles.container}>
       <h1>Pages</h1>
-      <Link href="/page-1">
-        <a>Page 1</a>
-      </Link>
-      <Link href="/page-2">
-        <a>Page 2</a>
-      </Link>
-      <Link href="/page-3">
-        <a>Page 3</a>
-      </Link>
-      <Link href="/page-4">
-        <a>Page 4</a>
-      </Link>
+
+      {editions.map((edition: any, index: number) => {
+        return (
+          <Link href={`/${edition.slug}`} key={index}>
+            <a>{edition.slug}</a>
+          </Link>
+        )
+      })}
     </div>
   )
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const editions = await fetchEditionsList()
+
+  return {
+    props: {
+      editions,
+    },
+  }
 }
 
 export default Home
