@@ -1,5 +1,5 @@
 import type { GetStaticPaths, GetStaticProps } from "next"
-import { fetchEdition } from "../utils/api"
+import { fetchEdition } from "../../utils/api"
 
 type Props = {
   data: any
